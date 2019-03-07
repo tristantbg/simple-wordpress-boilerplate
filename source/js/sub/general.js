@@ -1,3 +1,3 @@
 export function General() {
-    alert("HELLO, YOU!");
+    console.log("HELLO, YOU!");
 };

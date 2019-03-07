@@ -7,8 +7,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+ 
 module.exports = {
   entry: ['./source/js/combine.js', './source/css/combine.scss'],
   output: {
@@ -39,7 +39,25 @@ module.exports = {
     // extract css into dedicated file
     new MiniCssExtractPlugin({
       filename: './build/combine.min.css'
-    })
+    }),
+    new BrowserSyncPlugin(
+      // BrowserSync options
+      {
+        // browse to http://localhost:3000/ during development
+        host: 'localhost',
+        port: 3000,
+        // proxy the Webpack Dev Server endpoint
+        // (which should be serving on http://localhost:3100/)
+        // through BrowserSync
+        proxy: 'http://developer-theme.test/'
+      },
+      // plugin options
+      {
+        // prevent BrowserSync from reloading the page
+        // and let Webpack Dev Server take care of this
+        reload: false
+      }
+    )
   ],
   optimization: {
     minimizer: [
